@@ -49,9 +49,9 @@ namespace BBank
                 }
                 return null;
             }
-            public void Show_users(List<User> users)
+            public void Show_users()
             {
-                foreach (User user in users)
+                foreach (User user in Bank.Clients)
                 {
                     Console.WriteLine(user.Username + " " + user.Firstname + " " + user.Lastname + " " + user.Email);
                 }
@@ -121,10 +121,6 @@ namespace BBank
                 Client = client;
                 Moneysum = money;
             }
-            public void TotalTransactions() {}
-            public void ClientTotalTransactions() { }
-            public void ShowAllTransactions() { }
-            public void ShowAllClientTransactions() { }
         }
 
         class Virement : Transaction
@@ -132,34 +128,27 @@ namespace BBank
             public User To_User { get; set; }
             public Virement() : base()
             {
-                To_User = null;
+                
             }
             public Virement(User to_user,float money, User user ) : base(user, money)
             {
                 To_User = to_user;
             }
-            public Virement(User client, float money)
+            public Virement(User client, float money):base(client,money)
             {
-                Virement virement = new Virement();
-                virement.Moneysum = money;
-                virement.Client = client;
-                virement.To_User = null;
-                Bank.Transactions.Add(virement);
-            }
-            public void ShowAllTransactions()
-            {
-                Console.WriteLine("From         Sum         To ");
-                foreach (Virement transaction in Bank.Transactions)
-                {
-                    Console.WriteLine(transaction.Client.Username + " " + transaction.Moneysum + "USD " + transaction.To_User.Username);
-                }
+                Moneysum = money;
+                Client = client;
             }
             public void ShowAllClientTransactions(string username)
             {
+                Console.Write("Show client transactions");
+                Console.WriteLine("count list" + Bank.Transactions.Count());
                 foreach (Virement transaction in Bank.Transactions)
                 {
+                    
                     if (transaction.To_User!=null)
                     {
+                        
                         if (transaction.Client.Username == username)
                         {
                             Console.WriteLine(transaction.To_User.Username + " Payment send " + transaction.Moneysum + "USD");
@@ -171,6 +160,7 @@ namespace BBank
                     }
                     else if(transaction.Client.Username == username && transaction.To_User == null)
                     {
+                        
                         Console.WriteLine("Refill Bank Account " + transaction.Moneysum + "USD");
                     }
                 }
@@ -316,19 +306,22 @@ namespace BBank
                 users.Add(temp3);
                 User temp4 = new User("Danielle", "Danielle", "Ngo", "0000", "Danielle.Ngo@gmail.com");
                 users.Add(temp4);
-
-            List<Virement> virement = new List<Virement>();
+            
+            
             //Refill Account
             Virement p1 = new Virement(temp,1000);
             Virement p2 = new Virement(temp1, 350);
             Virement p3 = new Virement(temp2, 500);
             Virement p4 = new Virement(temp3, 150);
             Virement p5 = new Virement(temp4, 50);
-            virement.Add(p1);
-            virement.Add(p2);
-            virement.Add(p3);
-            virement.Add(p4);
-            virement.Add(p5);
+            Virement p6 = new Virement(temp, 50);
+            Bank.Transactions.Add(p1);
+            Bank.Transactions.Add(p2);
+            Bank.Transactions.Add(p3);
+            Bank.Transactions.Add(p4);
+            Bank.Transactions.Add(p5);
+            Bank.Transactions.Add(p6);
+            
             //Payment Money
                 Virement transaction = new Virement(temp, 120, temp1);
                 Virement transaction1 = new Virement(temp, 12, temp2);
@@ -339,83 +332,82 @@ namespace BBank
                 Virement transaction11 = new Virement(temp2, 23, temp1);
                 Virement transaction12 = new Virement(temp2, 2, temp);
                 Virement transaction13 = new Virement(temp3, 55, temp3);
-                virement.Add(transaction);
-                virement.Add(transaction1);
-                virement.Add(transaction2);
-                virement.Add(transaction3);
-                virement.Add(transaction4);
-                virement.Add(transaction11);
-                virement.Add(transaction12);
-                virement.Add(transaction13);
-                virement.Add(transaction14);
-
+            Bank.Transactions.Add(transaction);
+            Bank.Transactions.Add(transaction1);
+            Bank.Transactions.Add(transaction2);
+            Bank.Transactions.Add(transaction3);
+            Bank.Transactions.Add(transaction4);
+            Bank.Transactions.Add(transaction11);
+            Bank.Transactions.Add(transaction12);
+            Bank.Transactions.Add(transaction13);
+            Bank.Transactions.Add(transaction14);
             //Retrait
-                List<Bank_Transaction> retrait = new List<Bank_Transaction>();
                 Bank_Transaction bankt1 = new Bank_Transaction("BMC1 X11","NY",temp,30);
                 Bank_Transaction bankt2 = new Bank_Transaction("BMC1 c15", "CAL", temp4, 10);
                 Bank_Transaction bankt3 = new Bank_Transaction("BMC1 d11", "NY", temp1, 10);
                 Bank_Transaction bankt4 = new Bank_Transaction("BMC1 X11", "NY", temp2, 100);
                 Bank_Transaction bankt5 = new Bank_Transaction("BMC1 z10", "CAL", temp3, 50);
-                retrait.Add(bankt1);
-                retrait.Add(bankt2);
-                retrait.Add(bankt3);
-                retrait.Add(bankt4);
-                retrait.Add(bankt5);
-
+            Bank.BankTransactions.Add(bankt1);
+            Bank.BankTransactions.Add(bankt2);
+            Bank.BankTransactions.Add(bankt3);
+            Bank.BankTransactions.Add(bankt4);
+            Bank.BankTransactions.Add(bankt5);
 
             Console.WriteLine("Welcome to BBank");
-                    Console.WriteLine("Loing informtion");
-                    Console.WriteLine("username :");
-                    string username = Console.ReadLine();
-                    Console.WriteLine("password");
-                    string password = Console.ReadLine();
-                    if(bank.Authentificaion(username,password))
+            Console.WriteLine("Loing informtion");
+            Console.WriteLine("username :");
+            string username = Console.ReadLine();
+            Console.WriteLine("password");
+            string password = Console.ReadLine();
+            if (bank.Authentificaion(username, password))
+            {
+                User user = new User();
+                user = user.Get_user_by_username(username);
+                string smoney;
+                float money;
+                Console.WriteLine("Welcome back  " + user.Firstname);
+
+                Console.WriteLine(bank.Name + " " + Bank.Clients.Count + " Clietns"); Console.WriteLine("Annual revenue " + (bankt1.TotalTransactions() + p1.TotalTransactions()) + "USD");
+                Console.WriteLine("1-ALL Transfers      2-All Withdraws          3-Transfer      4-Withdraw      5-Balance");
+                int i = 1;
+                string enter;
+                while (i != 0)
+                {
+                    enter = Console.ReadLine();
+                    i = int.Parse(enter);
+                    switch (i)
                     {
-                        User user = new User();
-                        user=user.Get_user_by_username(username);
-                    string smoney;
-                    float money;
-                    Console.WriteLine("Welcome back  " + user.Firstname);
-
-                    Console.WriteLine(bank.Name + " " +Bank.Clients.Count+ " Clietns"); Console.WriteLine("Annual revenue " +(bankt1.TotalTransactions() + p1.TotalTransactions())+ "USD");
+                        case 1: Console.Clear(); transaction.ShowAllClientTransactions(username); break;
+                        case 2: Console.Clear(); bankt1.ShowAllClientTransactions(user); break;
+                        case 3:
+                            Console.Clear();
+                            Console.WriteLine("Payment to :");
+                            string name;
+                            name = Console.ReadLine();
+                            Console.WriteLine("Money to send (usd) :");
+                            smoney = Console.ReadLine();
+                            money = float.Parse(smoney);
+                            transaction.PaymentUser(username, money, name); break;
+                        case 4:
+                            Console.Clear();
+                            Console.WriteLine("Money to retrait (usd) :");
+                            smoney = Console.ReadLine();
+                            money = float.Parse(smoney);
+                            bankt1.MakeWithdraw(user, money); break;
+                        case 5:
+                            Console.Clear();
+                            money = transaction.ClientTotalTransactions(username) + bankt1.ClientTotalTransactions(user);
+                            Console.WriteLine("Balance : " + money + "USD"); break;
+                        default: break;
+                    }
                     Console.WriteLine("1-ALL Transfers      2-All Withdraws          3-Transfer      4-Withdraw      5-Balance");
-                    int i=1;
-                    string enter;
-                    while (i!=0)
-                        {
-                        enter = Console.ReadLine();
-                            i = int.Parse(enter);
-                            switch (i)
-                            {
-                                case 1: Console.Clear(); transaction.ShowAllClientTransactions(username); break;
-                                case 2: Console.Clear(); bankt1.ShowAllClientTransactions(user); break;
-                                case 3:
-                                Console.Clear();
-                                Console.WriteLine("Payment to :");
-                                string name;
-                                name=Console.ReadLine();
-                                Console.WriteLine("Money to send (usd) :");
-                                smoney = Console.ReadLine();
-                                money = float.Parse(smoney);
-                                transaction.PaymentUser(username,money,name);break;
-                                case 4:
-                                Console.Clear();
-                                Console.WriteLine("Money to retrait (usd) :");
-                                smoney = Console.ReadLine();
-                                money = float.Parse(smoney);
-                                bankt1.MakeWithdraw(user,money); break;
-                                case 5:
-                                Console.Clear();
-                                money = transaction.ClientTotalTransactions(username)+bankt1.ClientTotalTransactions(user);
-                                Console.WriteLine("Balance : "+money+"USD");break;
-                                default:break;
-                            }
-                        Console.WriteLine("1-ALL Transfers      2-All Withdraws          3-Transfer      4-Withdraw      5-Balance");
-                        }
-                   
-
                 }
-                Console.Read();
+
+
+            }
+
+
+            Console.Read();
             }
 
         
