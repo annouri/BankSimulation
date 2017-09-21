@@ -1,0 +1,7 @@
+C:\Users\ZERO\source\repos\BBank\BBank\bin\Debug\BBank.exe.config
+C:\Users\ZERO\source\repos\BBank\BBank\bin\Debug\BBank.exe
+C:\Users\ZERO\source\repos\BBank\BBank\bin\Debug\BBank.pdb
+C:\Users\ZERO\source\repos\BBank\BBank\obj\Debug\BBank.csprojResolveAssemblyReference.cache
+C:\Users\ZERO\source\repos\BBank\BBank\obj\Debug\BBank.csproj.CoreCompileInputs.cache
+C:\Users\ZERO\source\repos\BBank\BBank\obj\Debug\BBank.exe
+C:\Users\ZERO\source\repos\BBank\BBank\obj\Debug\BBank.pdb
