@@ -18,8 +18,8 @@ namespace BBank
             public static List<Bank_Transaction> BankTransactions { get; set; }
             public static string Phonenumber { get; set; }
             public static string Name { get; set; }
-            public string Creationdate { get; set; }
-            public Bank()
+            public static string Creationdate { get; set; }
+            public static void init()
             {
 
                 Clients = new List<User>();
@@ -28,7 +28,6 @@ namespace BBank
                 Phonenumber = "+34 324-256-18";
                 Name = "SOCIETE GENERALE";
                 Creationdate = "12/12/1995";
-
             }
             public void ShowClients()
             {
@@ -307,9 +306,7 @@ namespace BBank
                 User temp2 = new User("to.sandra ", "Sandra ", "Townsend", "0000", "Townsend@gmail.com");
 
 
-                Bank.Clients = new List<User>();
-                Bank.Transactions = new List<Virement>();
-                Bank.BankTransactions = new List<Bank_Transaction>();
+                Bank.init();
                 Bank.Clients.AddRange(new List<User> {
                     temp,
                     temp1,
