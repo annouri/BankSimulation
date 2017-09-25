@@ -19,16 +19,6 @@ namespace BBank
             public static string Phonenumber { get; set; }
             public static string Name { get; set; }
             public static string Creationdate { get; set; }
-            public static void init()
-            {
-
-                Clients = new List<User>();
-                Transactions = new List<Virement>();
-                BankTransactions = new List<Bank_Transaction>();
-                Phonenumber = "+34 324-256-18";
-                Name = "SOCIETE GENERALE";
-                Creationdate = "12/12/1995";
-            }
             public void ShowClients()
             {
                 foreach (User user in Clients)
@@ -59,11 +49,7 @@ namespace BBank
             public string Email { get; set; }
             public User()
             {
-                Username = "null";
-                Firstname = "null";
-                Lastname = "null";
-                Password = "null";
-                Email = "null";
+                
             }
             public User(string username, string firstname, string lastname, string password, string email)
             {
@@ -97,9 +83,7 @@ namespace BBank
         {
             public string Phone_number { get; set; }
             public Premuim_user() : base()
-            {
-                Phone_number = "xxxxxxx";
-            }
+            {}
             public Premuim_user(string phone_number,string username,string firstname,string lastname,string password,string email) : base( username,  firstname,  lastname,  password,  email)
             {
                 Phone_number = phone_number;
@@ -298,15 +282,18 @@ namespace BBank
 
                 //Creating Bank
                 //Creating our clients
-                
+
+                Bank.Clients = new List<User>();
+                Bank.Transactions = new List<Virement>();
+                Bank.BankTransactions = new List<Bank_Transaction>();
+                Bank.Phonenumber = "+34 324-256-18";
+                Bank.Name = "SOCIETE GENERALE";
+                Bank.Creationdate = "12/12/1995";
                 User temp = new User("an.ilias", "ilias", "annouri", "0011", "annouri.ilias@gmail.com");
                
                 User temp1 = new User("ha.elgarrab", "hamza", "elgarrab", "0022", "hamza.elgarrab@gmail.com");
                 
                 User temp2 = new User("to.sandra ", "Sandra ", "Townsend", "0000", "Townsend@gmail.com");
-
-
-                Bank.init();
                 Bank.Clients.AddRange(new List<User> {
                     temp,
                     temp1,
